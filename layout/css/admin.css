@@ -1,0 +1,459 @@
+
+/*   Start Main Rules*/
+body
+{
+    font-size: 16px;
+    color: #2b3842;
+    font-family: 'Rubik', sans-serif;
+}
+
+.show-pass
+{
+    position: absolute;
+    right: -15px;
+    top: 10px;
+}
+
+.etoile
+{
+    font-size: 25px;
+    position: absolute;
+    right: 25px;
+    top: 3px;
+    color: #d84747;
+}
+
+/*   End Main Rules*/
+
+/*   Start  Login form   */
+
+.login
+{
+    width: 300px;
+    margin: 100px auto;
+}
+.login h4
+{
+    color: #888;
+}
+.login input
+{
+    margin-bottom: 10px;
+}
+.login .form-control
+{
+    background-color: #EAEAEA;
+}
+.login .btn
+{
+    background-color: #008dde;
+}
+
+
+/*   End Login form   */
+
+/*  Start Bootstrap Edit   */
+
+
+.form-group .col-sm-2 
+{
+    text-align: center;
+    font-weight: bold;
+}
+.navbar
+{
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: 2px solid #f7f7f7;
+    
+}
+.navbar-brand
+{
+    font-size: 16px;
+    color: #2b3842 !important;
+    padding: 15px 12px;
+    margin-right: 0;
+    font-weight: bold;
+}
+.navbar-light .navbar-nav .nav-link {
+    padding-left: 15px;
+}
+.nav-link {
+    padding: 15px 12px;
+   font-weight: bold;
+
+}
+.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .show>.nav-link,
+.dropdown-menu
+{
+    background-color: #9e97dc;
+}
+
+.dropdown-menu
+{
+    padding: 0;
+    border: none;
+    border-radius: 15px;
+    margin-top: 0;
+}
+
+.dropdown-post
+{
+    color: #fff;
+    font-size: 16px;
+
+}
+
+/*  End Bootstrap Edit   */
+
+/*  Start Dashboard Edit  */
+
+.home-stats .stat
+{
+    background-color: #EEE;
+    color: #FFF;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-stats .stat i
+{
+    position: absolute;
+    font-size: 30px;
+    left: 35px;
+    top: 35px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.stats .fa-users
+{
+    color: #2e8c4f;
+}
+
+.stats .fa-user-plus
+{
+    color: #fb4d28;
+}
+
+.stats .fa-tag
+{
+    color: #236cf8;
+}
+
+.stats .fa-comment
+{
+    color: #684697;
+}
+.home-stats .stat .info
+{
+    float: right;
+    font-weight: bold;
+    color:#9fafa5;
+}
+
+.home-stats .stat a
+{
+    color: #FFF;
+}
+.home-stats .stat a:hover
+{
+    text-decoration: none;
+}
+.home-stats .st-members
+{
+    background-color: #d7fde6;
+    border: 1px solid rgba(46,140,79,.2);
+}
+.home-stats .st-pending
+{
+    background-color: #ffdecf;
+    border: 1px solid rgba(255,222,207,.2);
+}
+.home-stats .st-posts
+{
+    background-color: #d0e7f9;
+    border: 1px solid rgba(0,208,231,.2);
+}
+.home-stats .st-comments
+{
+    background-color: #e4d3f9;
+    border: 1px solid rgba(228,211,249,.2);
+}
+
+.home-stats .stat span
+{
+    display: block;
+    font-size: 50px;
+    color:#2b3842;
+}
+
+
+.latest
+{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.latest .card-header
+{
+    background-color: #2b3842 !important;
+    color: #fff;
+}
+
+.latest-users
+{
+    margin-bottom: 0px;
+}
+
+.latest .toggle-info
+{
+    color: #fff;
+    cursor: pointer;
+}
+
+.latest .toggle-info:hover
+{
+    color: #333;
+}
+
+.latest-users .btn-outline-primary,
+.latest-users .btn-outline-success
+{
+    padding: 3px 8px;
+}
+
+.latest-users .btn-outline-success
+{
+    margin-right: 5px;
+}
+
+.latest-users li
+{
+    padding: 5px;
+    overflow: hidden;
+}
+.latest-users li:nth-child(odd)
+{
+    background-color: #EEE;
+}
+.latest-users li a:hover
+{
+    text-decoration: none;
+}
+
+.latest .comment-box
+{
+    margin: 10px 0px;
+}
+
+.latest .comment-box .member-name,
+.latest .comment-box .member-comment
+{
+    float: left;
+}
+
+.latest .comment-box .member-name
+{
+    margin-right: 20px;
+    width: 80px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.latest .comment-box .member-name a:hover
+{
+    text-decoration: none;
+}
+
+.latest .comment-box .member-comment
+{
+    width: calc(100% - 100px);
+    background-color: #EFEFEF;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.latest .comment-box .edit-comment
+{
+    color: rgb(63, 63, 63);
+}
+.latest .comment-box .edit-comment:hover
+{
+    color: #000;
+}
+/*  End Dashboard Edit  */
+
+
+/*  Start Members Edit   */
+
+h1
+{
+    font-size: 55px;
+    margin: 40px 0;
+    font-weight: bold;
+    color: #2b3842;
+}
+.form-control
+{
+    position: relative;
+}
+
+.main-table td
+{
+    background-color: #FFF;
+    vertical-align: middle !important;
+}
+.main-table tr:first-child td
+{
+    /*background-color: #333;*/
+    font-weight: bold;
+    color: #2b3842;
+    
+}
+
+.main-table img
+{
+    width: 50px;
+    height: 50px;
+}
+
+.main-table .btn
+{
+    padding: 3px 10px;
+}
+
+.activate-btn
+{
+    margin-left: 5px;
+}
+/*  End Members Edit   */
+
+/* Start Category Edit */
+
+.radio-space
+{
+    margin-left: 15px;
+}
+
+.ordering a
+{
+    color: #777;
+    text-decoration: none;
+}
+
+.ordering a.active
+{
+    color: #16a085;
+    font-weight: bold;
+}
+
+.category
+{
+    margin-bottom: 20px;
+}
+.category .card-header
+{
+    color: #959595;
+    font-weight: bold;
+}
+.category .card-body
+{
+    padding: 0;
+}
+.category-container
+{
+    margin-bottom: 100px;
+}
+
+.category .cat
+{
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.category .cat h3
+{
+    cursor: pointer;
+}
+
+.category .cat .full-view p
+{
+    color: #707070;
+}
+.category .cat .buttons-hidden
+{
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+.category .cat:hover
+{
+    background-color: #EEE;
+}
+.category .cat:hover .buttons-hidden
+{
+    display: block;
+}
+
+.category .cat .buttons-hidden a
+{
+    margin-right: 5px;
+}
+.category .cat h3
+{
+    margin: 0 0 10px;
+}
+.category .card-body hr
+{
+    margin: 0;
+}
+.category .card-body hr:last-child
+{
+    display: none;
+}
+
+.category .cat .visibility
+{
+    color: #d63031;
+    border: 1.5px solid #d63031;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 4px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.category .cat .comment
+{
+    color: #6c5ce7;
+    border: 1.5px solid #6c5ce7;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 4px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.category .cat .ads
+{
+    color: #2d3436;
+    border: 1.5px solid #2d3436;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 4px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+/* End Category Edit */
