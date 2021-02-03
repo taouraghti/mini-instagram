@@ -7,171 +7,213 @@ class user extends controller
     {
         $this->userModel = $this->model('users');
         $this->postModel = $this->model('posts');
+        $this->commentModel = $this->model('comments');
+        $this->likeModel = $this->model('likes');
+
+        if(isset($_SESSION['username']))
+        {
+            $notif['like'] = $this->likeModel->getNotif();
+            $notif += ['comment' => $this->commentModel->getNotif()];
+            $this->view('templates/navbar',$notif);
+        }
     }
 
     public function index()
     {
-        $this->view("templates/navbar");
-        $data = $this->postModel->getAllposts();
-        $this->view('user/homepage', $data);
-        $this->view('templates/footer');
-        $this->view("templates/footer");
-    }
-
-    public function addMember()
-    {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->view('admin/navbar');
-            $this->view('admin/addMember');
-        }
+        if(isset($_SESSION['username']))
+            redirect('app/init.php?url=post/home');
         else
-            $this->view('admin/login');
-        $this->view('templates/footer');
-    }
-
-    public function editMember($id)
-    {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
         {
-            $data = $this->userModel->getOne($id);
-            $this->view('admin/navbar');
-            $this->view('admin/editMember',$data);
+            $this->view('user/login');
+            $this->view('templates/userfooter');
         }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
     }
-
-    public function updateMember()
+    public function login()
     {
-        if (isset($_SESSION['username']) && $_SESSION['group'] == 1 && $_SERVER['REQUEST_METHOD'] == 'POST')
+        if($_SERVER["REQUEST_METHOD"] == "POST")
         {
-            $avatar = $_FILES['avatar'];
-            $avatarName = $avatar['name'];
-            $avatarSize = $avatar['size'];
-            $avatarTmp = $avatar['tmp_name'];
-            $avatarType = $avatar['type'];
-
-            // List Of Allowed File Types
-            $avatarAllowedExtension = array('jpeg', 'jpg', 'png', 'gif');
-            $avatarExtension = explode('.', $avatarName);
-            $ext = strtolower(end($avatarExtension));
-
-            $pass = empty($_POST['newpassword']) ? $_POST['oldpassword'] : $pass = sha1($_POST['newpassword']);
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            //$hashedPass = sha1($password);
             $dataErr = [];
-
-            $data['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
-            $data += ['id' =>  $_POST['userid']];
-            $data += ['email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) ];
-            $data += ['username' => filter_var($_POST['username'], FILTER_SANITIZE_STRING) ];
-            $data += ['password' => $pass ];
-
-            if ($this->userModel->findUserByUsername($data['username'], $data['id']) == 1)
-                $dataErr[] = "Username is already <strong>exist</strong>";
-            if(empty($data['username']))
-                $dataErr[] = "Username can't be <strong>Empty</strong>";
-            if(empty($data['email']))
-                $dataErr[] = "Email can't be <strong>Empty</strong>";
-            if(empty($data['fullname']))
-                $dataErr[] = "Full name can't be <strong>Empty</strong>";
-            if (!empty($avatarName) &&!in_array($ext, $avatarAllowedExtension))
-                $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
-            //Update The DataBase With This infos
-
-            if (empty($dataErr))
+            $loggedInUser = $this->userModel->login($username, $password);
+            if($loggedInUser != -1)
             {
-                if(empty($avatarName))
-                {
-                    $r = $this->userModel->getOne($data['id']);
-                    $av = $r['Avatar'];
-                }
-                else
-                {
-                    $av = rand(0, 100000) . '_' . $avatarName;
-                    move_uploaded_file($avatarTmp, "uploads\avatars\\" . $av);
-                }
-                $data += ['avatar' => $av];
-                $this->userModel->update($data);
+                createSessionUser($loggedInUser);
+                redirect('app/init.php?url=post/home');
             }
-                $this->view('admin/navbar');
-                $this->view('admin/result',$dataErr);
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
-    }
-
-    public function insertMember()
-    {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1 && $_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            $avatar = $_FILES['avatar'];
-            $avatarName = $avatar['name'];
-            $avatarSize = $avatar['size'];
-            $avatarTmp = $avatar['tmp_name'];
-            $avatarType = $avatar['type'];
-
-            // List Of Allowed File Types
-            $avatarAllowedExtension = array('jpeg', 'jpg', 'png', 'gif');
-            $avatarExtension = explode('.', $avatarName);
-            $ext = strtolower(end($avatarExtension));
-
-            $dataErr = [];
-            $data['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
-            $data['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-            $data += ['email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) ];
-            $data += ['username' => filter_var($_POST['username'], FILTER_SANITIZE_STRING) ];
-            $data += ['password' => sha1($_POST['password']) ];
-            if(empty($data['fullname']))
-                $dataErr[] = "Full name can't be <strong>Empty</strong>";
-            if(empty($data['password']))
-                $dataErr[] = "Password can't be <strong>Empty</strong>";
-            if(empty($data['email']))
-                $dataErr[] = "Email can't be <strong>Empty</strong>";
-            if(empty($data['username']))
-                $dataErr[] = "Username can't be <strong>Empty</strong>";
-            if ($this->userModel->findUserByUsername($data['username']) == 1)
-                $dataErr[] = "Username is already <strong>exist</strong>";
+                
             else
             {
-                if ($this->userModel->findUserByUsername($data['username']) == 1)
+                $dataErr[] = "Username or password incorrect";
+                redirectError("index.php", $dataErr);
+            }
+        }
+    }
+
+    public function signup()
+    {
+        if($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $dataUser = [
+                'fullname'  => '',
+                'email'     => '',
+                'username'  => '',
+                'password'  => ''
+            ];
+            $dataErr = [];
+            $dataUser['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
+            $dataUser['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $dataUser['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+            $dataUser['password'] = $_POST['password'];
+            if(empty($dataUser['fullname']))
+                $dataErr[] = "Full name can't be <strong>Empty</strong>";
+            if(empty($dataUser['email']))
+                $dataErr[] = "Email can't be <strong>Empty</strong>";
+            if(empty($dataUser['username']))
+                $dataErr[] = "Username can't be <strong>Empty</strong>";
+            else
+            {
+                if ($this->userModel->findUserByUsername($dataUser['username']) == 1)
                     $dataErr[] = "Username is already <strong>Taken</strong>";
             }
+            if(empty($dataUser['password']))
+                $dataErr[] = "Password can't be <strong>Empty</strong>";
+            
+            if(empty($dataErr))
+            {
+                $loggedInUser = $this->userModel->signup($dataUser);
+                createSessionUser($loggedInUser);
+                redirect('app/init.php?url=post/home');
+            }
+            else
+                redirectError("/index.php", $dataErr);
+        }
+    }
+
+    public function profile($user)
+    {
+        //session_start();
+        if(isset($_SESSION['username']))
+        {
+            if ($_SESSION['username'] == $user)
+                $data = $this->postModel->getPostsProfile();
+            else
+                $data = $this->userModel->getInfoProfile($user);
+            $this->view('users/profile', $data);
+            $this->view('templates/footer');
+        }
+        else
+        {
+            $this->view('user/login');
+            $this->view('templates/userfooter');
+        }
+
+    }
+
+    public function editProfile()
+    {
+        if(isset($_SESSION['username']))
+        {
+            $this->view('users/editprofile');
+            $this->view('templates/footer');
+        }
+        else
+        {
+            $this->view('user/login');
+            $this->view('templates/userfooter');
+        }
+    }
+
+    public function updateProfile()
+    {
+        //session_start();
+        if(isset($_SESSION['username']) && $_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $dataUser = [
+                'userid'      => '',
+                'fullname'      => '',
+                'email'         => '',
+                'username'      => '',
+                'oldpassword'   => '',
+                'newpassword'   => '',
+                'avatar'        => ''
+            ];
+            $dataErr = [];
+            $dataUser['userid'] = $_POST['userid'];
+            $dataUser['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
+            $dataUser['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $dataUser['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+            $dataUser['oldpassword'] = $_POST['oldpassword'];
+            $dataUser['newpassword'] = $_POST['newpassword'];
+
+            $avatar = $_FILES['avatar'];
+            $avatarName = $avatar['name'];
+            $avatarSize = $avatar['size'];
+            $avatarTmp = $avatar['tmp_name'];
+            $avatarType = $avatar['type'];
+
+            // List Of Allowed File Types
+            $avatarAllowedExtension = array('jpeg', 'jpg', 'png', 'gif');
+            $avatarExtension = explode('.', $avatarName);
+            $ext = strtolower(end($avatarExtension));
+
             if (!empty($avatarName) && !in_array($ext, $avatarAllowedExtension))
-                $dataErr[] = "This extension is not <strong>Allowed</strong>";
+                $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
+            if(empty($dataUser['fullname']))
+                $dataErr[] = "Full name can't be <strong>Empty</strong>";
+            if(empty($dataUser['email']))
+                $dataErr[] = "Email can't be <strong>Empty</strong>";
+            if(empty($dataUser['username']))
+                $dataErr[] = "Username can't be <strong>Empty</strong>";
+            else
+            {
+                if ($this->userModel->findUserByUsername($dataUser['username'], $_SESSION['userid']) > 0)
+                    $dataErr[] = "Username is already <strong>Taken</strong>";
+            }
+            if(empty($dataUser['oldpassword']))
+                $dataErr[] = "Password can't be <strong>Empty</strong>";
+            else
+            {
+                if ($this->userModel->findUserByPassword($dataUser['oldpassword']) == 0)
+                    $dataErr[] = "Password is <strong>Incorrect</strong>";
+                if(empty($dataUser['newpassword']))
+                    $dataUser['newpassword'] = $dataUser['oldpassword'];
+            }
             
             if(empty($dataErr))
             {
                 if(empty($avatarName))
-                    $avatarName = "inko.png";
+                    $av = "inko.png";
                 else
                 {
                     $av = rand(0, 100000) . '_' . $avatarName;
                     move_uploaded_file($avatarTmp, "../uploads/avatars/" . $av);
                 }
-                $data += ["avatar" => $avatarName];
-                $this->userModel->insert($data);
+                $dataUser['avatar'] = $av;
+                if(($d = $this->userModel->updateProfile($dataUser)) > 0)
+                    createSessionUser($d); 
+                redirect('app/init.php?url=users/profile/' . $_SESSION['username']);
             }
-            $this->view('admin/navbar');
-            $this->view('admin/result',$dataErr);
+            else
+                redirectError($_SERVER['HTTP_REFERER'], $dataErr, 1);
         }
         else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        {
+            $this->view('user/login');
+            $this->view('templates/userfooter');
+        }
+
     }
 
-    public function deleteMember($id)
+    public function logout()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->userModel->delete($id);
-            redirect('app/initadmin.php?url=admin/member');
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        //session_start();
+        session_unset();
+        session_destroy();
+        redirect('index.php');
     }
+    
 }
 
 ?>

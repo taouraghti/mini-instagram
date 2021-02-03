@@ -17,7 +17,7 @@
                     echo '<td>' .$row["CommentId"]. '</td>';
                     echo '<td>' .$row["Comment"]. '</td>';
                     echo '<td><img src=uploads/posts/' . $row["postImage"]. '</td>';
-                    echo '<td>' .$row["Username"]. '</td>';
+                    echo '<td>' .$row["UserComment"]. '</td>';
                     echo '<td>' .$row["Date"]. '</td>';
                     echo '<td>
                         <a href="comments.php?do=edit&comid=1" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>

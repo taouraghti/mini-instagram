@@ -269,7 +269,10 @@ class admin extends controller
     public function addPost()
     {
         if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
+        {
+            $this->view('admin/navbar');
             $this->view('admin/addPost');
+        }
         else
             $this->view('admin/login');
         $this->view('templates/footer');

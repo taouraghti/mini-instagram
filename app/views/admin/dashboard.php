@@ -93,15 +93,15 @@
                                 {
                                     foreach($data['Latestpost'] as $it)
                                     {
-                                        echo '<li><img style="width:50px;height:50px" src="'.'../uploads/posts/' . $it["image"]. '">'; 
-                                                echo '<a href="'.URLROOT . '/app/initadmin.php?url=admin/editPost/'.$it["postId"].'">';
+                                        echo '<li><img style="width:50px;height:50px" src="'.'../uploads/posts/' . $it["Image"]. '">'; 
+                                                echo '<a href="'.URLROOT . '/app/initadmin.php?url=admin/editPost/'.$it["PostId"].'">';
                                                     echo '<span class="btn btn-outline-primary float-right">';
                                                         echo '<i class="fa fa-edit"></i> Edit';
                                                     echo '</span>';
                                                 echo'</a>';
                                                 if ($it['Approve'] == 0)
                                                 {
-                                                    echo '<a href="'.URLROOT . '/app/initadmin.php?url=admin/approvePost/'.$it["postId"].'/dashboard" class="btn btn-outline-success float-right"><i class="fas fa-check"></i> Approve</a>';
+                                                    echo '<a href="'.URLROOT . '/app/initadmin.php?url=admin/approvePost/'.$it["PostId"].'/dashboard" class="btn btn-outline-success float-right"><i class="fas fa-check"></i> Approve</a>';
                                                 }
                                         echo'</li>';
                                     }

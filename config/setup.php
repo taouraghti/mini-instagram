@@ -59,12 +59,12 @@ catch(PDOException $e)
 try
 {
     $sql = "CREATE TABLE `posts`(
-        `postId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `PostId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `Description` text NOT NULL,
         `Date` date NOT NULL,
-        `image` varchar(255) NOT NULL,
+        `Image` varchar(255) NOT NULL,
         `Approve` smallint NOT NULL DEFAULT '1',
-        `NomberLikes` INT(11) NOT NULL DEFAULT '0',
+        `NumberLikes` INT(11) NOT NULL DEFAULT '0',
         `UserId` int(11) NOT NULL,
         CONSTRAINT `fk_posts_userid`
         FOREIGN KEY (`UserId`)
@@ -87,7 +87,7 @@ catch(PDOException $e)
 try
 {
     $sql = "CREATE TABLE `likes`(
-        `likeId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `LikeId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `UserLike` varchar(255) NOT NULL,
         `LikeView` SMALLINT NOT NULL DEFAULT '0',
         `Date` datetime NOT NULL,
@@ -95,12 +95,12 @@ try
         `PostId` int(11) NOT NULL,
         CONSTRAINT `fk_likes_userid`
         FOREIGN KEY (`UserId`)
-        REFERENCES `camagru`.`users` (`UserId`)
+        REFERENCES `instagram`.`users` (`UserId`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
         CONSTRAINT `fk_likes_postid`
         FOREIGN KEY (`PostId`)
-        REFERENCES `camagru`.`posts` (`PostId`)
+        REFERENCES `instagram`.`posts` (`PostId`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
         )ENGINE=InnoDB";
@@ -126,15 +126,15 @@ try
         `Date` datetime NOT NULL,
         `Status` SMALLINT NOT NULL DEFAULT '0',
         `UserId` int(11) NOT NULL,
-        `postId` int(11) NOT NULL,
+        `PostId` int(11) NOT NULL,
         CONSTRAINT `fk_comments_userid`
         FOREIGN KEY (`UserId`)
         REFERENCES `instagram`.`users` (`UserId`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
         CONSTRAINT `fk_comments_postid`
-        FOREIGN KEY (`postId`)
-        REFERENCES `instagram`.`posts` (`postId`)
+        FOREIGN KEY (`PostId`)
+        REFERENCES `instagram`.`posts` (`PostId`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
         )ENGINE=InnoDB";

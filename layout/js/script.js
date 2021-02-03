@@ -34,7 +34,7 @@ function getlike(element, userid, postid)
 {
     var myreq = new XMLHttpRequest(),
         x, y;
-    myreq.open("GET", "http://localhost/camagru-test/app/init.php?url=posts/postLiked/"+ userid + "/" + postid + "/1", true);
+    myreq.open("GET", "http://localhost/instagram/app/init.php?url=post/postLiked/" + userid + "/" + postid, true);
     myreq.send();
     myreq.onreadystatechange = function(){
         var nb = document.getElementById("nblike" + postid);
@@ -99,14 +99,14 @@ function getComment(element, userid, postid, username, avatar)
     console.log(com.value);
 
     var req = new XMLHttpRequest();
-    req.open("GET", "http://localhost/camagru-test/app/init.php?url=posts/postCommented/"+ userid + "/" + postid + "/" + comment, true);
+    req.open("GET", "http://localhost/instagram/app/init.php?url=post/postCommented/"+ userid + "/" + postid + "/" + comment, true);
     req.send();
     req.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200)
         {
              var myDiv = document.createElement("DIV");
              myDiv.classList.add("comment-box");
-             myDiv.innerHTML = '<img class="img-responsive img-thumbnail rounded-circle" style="width:43px;height:43px;" src="http://localhost/camagru-test/uploads/avatars/'+ avatar +'" alt=""><p class="lead"><a href="http://localhost/camagru-test/app/init.php?url=users/profile/'+ username +'">'+ username +' </a> '+ comment +'</p>';
+             myDiv.innerHTML = '<img class="img-responsive img-thumbnail rounded-circle" style="width:43px;height:43px;" src="http://localhost/instagram/uploads/avatars/'+ avatar +'" alt=""><p class="lead"><a href="http://localhost/instagram/app/init.php?url=user/profile/'+ username +'">'+ username +' </a> '+ comment +'</p>';
              comDiv.appendChild(myDiv)
              element.style.color = "rgba(0,149,246, .3)";
              element.setAttribute("disabled","true");
@@ -120,7 +120,7 @@ function showNotif(userid)
     var notif = document.getElementById("notifications");
     var n = document.getElementById("likesnb");
     var req = new XMLHttpRequest();
-    req.open("GET", "http://localhost/camagru-test/app/init.php?url=posts/notifView/"+ userid, true);
+    req.open("GET", "http://localhost/instagram/app/init.php?url=post/notifView/"+ userid, true);
     req.send();
     req.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200)
@@ -128,16 +128,6 @@ function showNotif(userid)
             notif.classList.toggle("show");
             if(n)
                 n.style.display = "none";
-            /*if (notif.style.display == "none")
-                notif.classList.add("show");
-                //notif.style.display = "block";
-            else 
-            {
-                notif.classList.remove("show");
-                //notif.style.display = "none";
-                if(n)
-                    n.style.display = "none";
-            }*/
         }
     }
 }

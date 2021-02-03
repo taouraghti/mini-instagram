@@ -1,238 +1,445 @@
-
-/*   Start Main Rules*/
 body
 {
-    background-color: #F4F4F4;
-    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
 }
 
-h1
-{
-    font-size: 55px;
-    margin: 40px 0;
-    font-weight: bold;
-    color: #666;
-}
-
-.show-pass
-{
-    position: absolute;
-    right: -15px;
-    top: 10px;
-}
-
-.etoile
-{
-    font-size: 25px;
-    position: absolute;
-    right: 25px;
-    top: 3px;
-    color: #d84747;
-}
-
-/*   End Main Rules*/
-
-/*   Start  Login form   */
-
-
-
-/*   End Login form   */
-
-/*  Start Bootstrap Edit   */
-
-
-.form-group .col-sm-2 
-{
-    text-align: center;
-    font-weight: bold;
-}
 .navbar
 {
-    padding: 0;
-    margin-bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+    top: 0;
+    background-color: #FFF !important;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
-.navbar-brand
+/*    Start Login Page   */
+
+.login-page
 {
-    font-size: 16px;
-    color: rgba(255,255,255,.5) !important;
-    padding: 15px 12px;
-    margin-right: 0;
+    /*background: url("../../background1.jpg");*/
+    background-color: #ece4e4;
 }
-.navbar-dark .navbar-nav .nav-link {
-    padding-left: 15px;
-}
-.nav-link {
-    padding: 15px 12px;
-}
-.navbar-dark .navbar-nav .active>.nav-link,
-.navbar-dark .navbar-nav .nav-link.active,
-.navbar-dark .navbar-nav .nav-link.show,
-.navbar-dark .navbar-nav .show>.nav-link,
-.dropdown-menu
+
+.selected form
 {
-    background-color: #0984e3;
-}
-
-.dropdown-menu
-{
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    margin-top: 0;
-}
-
-.dropdown-post
-{
-    color: #fff;
-    font-size: 16px;
-
-}
-
-/*  End Bootstrap Edit   */
-
-/*  Start Header  */
-
-.upper-bar
-{
+    padding: 20px 30px;
+    width: 350px;
+    margin: 100px auto 10px auto;
     background-color: #FFF;
-    padding: 10px;
-    overflow: hidden;
+    border: 1px solid #c7c3c3;
+    border-radius: 5px;
 }
 
-
-
-/*  End Header   */
-
-/*Start Login Page*/
-.login-page form
+.selected form h1
 {
-    max-width: 350px;
-    margin: auto;
+    color: #262626;
+    font-size: 40px;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 30px;
 }
 
-.login-page h1
+.selected form input
 {
-    color: #b7bbbb;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
 }
-
-.login-page h1 span
+.selected div:last-child
 {
-    cursor: pointer;
+    padding: 20px 30px;
+    width: 350px;
+    background-color: #FFF;
+    margin: 0 auto;
+    border: 1px solid #c7c3c3;
+    border-radius: 5px;
 }
 
-span.selected
-{
-    color: #d84747;
-}
-
-.signup
+.not-selected
 {
     display: none;
 }
 
-/*End Login Page*/
+/*    End Login Page   */
 
-/*  Start Categories Page */
+/*** start Edit Navbar ***/
+.navbar
+{
+    height: 55px;
+}
+.navbar .navbar-brand
+{
+    font-family: 'Pacifico', cursive;
+    font-size: 25px;
+}
 
-.post-box
+.notifications .link-notif
+{
+    display:block;
+    text-decoration: none;
+    color: #000 !important;
+
+}
+
+.myNav
+{
+    display: flex;
+}
+
+.myNav .myLink
 {
     position: relative;
+    top: 5px;
 }
 
-.post-box .price
+.myNav .myLink .nav-like
+{
+    cursor: pointer;
+}
+
+.myNav .myLink .nav-like .likesnb
 {
     position: absolute;
-    left: 0;
-    top: 10px;
+    background-color: #ee5253;
+    padding: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    top: -6px;
+    right: 6px;
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    text-align: center;
+    line-height: 11px;
     color: #FFF;
-    background-color: #a6a6a9;
-    font-weight: bold;
-    padding: 3px 10px;
 }
-
-.post-box .card-text
+.myNav .myLink .notifications.show
 {
-    height: 44px;
-    overflow: hidden;
+    display: block;
 }
-/*  End Categories Page */
-
-/* Start Profile Page */
-
-.block
+.myNav .myLink .notifications
 {
-    margin: 20px 0 0;
-}
-
-.date
-{
-    text-align: right;
-    font-size: 13px;
-    color: #AAA;
-    font-weight: bold;
-}
-
-.approve-msg
-{
-    background-color: rgba(250, 27, 27, .7);
+    display: none;
+    background-color: #FFF;
+    width: 450px;
+    height: 350px;
     position: absolute;
-    top: 50px;
-    color: #FFF;
-    padding: 3px 5px;
+    border: 1px solid rgba(0, 0, 0, .5);
+    overflow-y: scroll;
+    right: -90px;
+    top: 40px;
+    border-radius: 8px;
 }
 
-/* End Profile Page */
-
-/* Start post infos */
-.post-infos h2
+.myNav .myLink .notifications .notif
 {
-    padding: 10px;
-
-}
-.post-infos p
-{
-    padding: 10px;
-
-}
-.post-infos ul li
-{
-    padding: 10px;
+    margin: 0 10px;
+    border-bottom:1px solid rgba(0,0,0,.3);
+    padding: 10px 0;
+    cursor: pointer;
 }
 
-.post-infos ul li:nth-child(odd)
+.myNav .myLink .notifications .notif:hover
 {
-    background-color: #e8e8e8;
-
+    background-color: rgba(0, 0, 0, .1);
 }
-.post-infos ul li span
+.myNav .myLink a
 {
-    display: inline-block;
-    width: 120px;
+    margin-right: 15px;
+    color: rgba(0,0,0,.6);
+}
+.myNav .myLink a:hover
+{
+    color: rgba(0,0,0);
+}
+.dropdown .nav-img
+{
+    display: block;
+    margin: 0 30px;
 }
 
-.add-comment textarea
+.dropdown-toggle::after
 {
+    display: none !important;
+}
+
+/**** End Edit Navbar  ****/
+
+/**** Start Edit HomePage ***/
+
+.sys-like
+{
+    cursor: pointer;
+}
+.fas.fa-heart
+{
+    color: #ee5253;
+}
+
+.card .username-post
+{
+    padding: 10px 15px;
+    font-weight: bold;
+    
+}
+
+.card .username-post img
+{
+    margin-right: 10px;
+}
+
+.card .username-post a
+{
+    text-decoration: none;
+    color: #262626;
+}
+.span-likes
+{
+    display: block;
     margin-bottom: 10px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .9);
+    font-size:16px;
+    cursor:pointer;
+    
+}
+.show-likes
+{
+    position: absolute;
+    display: none;
+    margin: auto;
+    z-index: 10000;
+    width: 250px;
+    height: 300px;
+    background-color: #FFF;
+    border: 1px solid rgba(0, 0, 0, .3);
+    overflow-y: scroll;
+    border-radius: 10px;
+}
+
+.show-likes.show
+{
+    display: block;
+}
+
+.show-likes .title-like
+{
+    padding: 10px;
+    text-align: center;
+    font-family: 'PT Mono', monospace;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+    background-color: #ee5253;
+    color: #FFF;
+}
+
+.show-likes .title-like i
+{
+    /*color: red;*/
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.show-likes .name-like
+{
+    padding: 5px;
+    font-weight: 500;
+}
+
+.show-likes .name-like:nth-child(odd) {
+    background-color: #EEE;
+}
+
+.show-likes .name-like a
+{
+    color: rgba(0, 0, 0, .7);
+    text-decoration: none;
+}
+
+.show-likes .name-like a:hover
+{
+    color: #000;
+}
+
+.show-likes .name-like img
+{
+    margin-right: 10px;
+}
+
+.card-text
+{
+    color: rgba(0, 0, 0, .7);
+}
+.card-text a
+{
+    text-decoration: none;
+    font-weight:500;
+    color: black;
+}
+.add-comment
+{
+    position: relative;
+    margin-top: 20px;
+    padding-top: 20px;
+    display: block;
+    border-top: 1px solid rgba(0, 0, 0, .2);
+}
+.add-comment .com-box
+{
+    max-width: 80%;
+    border: none;
+    display: inline;
+    height: 45px;
+}
+
+.add-comment .submit-btn
+{
+    position: absolute;
+    display: inline;
+    outline:none;
+    color: rgba(0,149,246, .3);
+    font-weight: bold;
+    font-size: 18px;
+    max-width: 15%;
+    top: 30px;
+    margin-left: 20px;
+    padding: 0;
+    border: none;
+    background-color: #FFF;
 }
 
 .comment-box
 {
-    margin-bottom: 20px;
-}
-
-.comment-box img
-{
-    max-width: 60px;
-    margin-bottom: 10px;
+    position: relative;
 }
 
 .comment-box p
 {
-    background-color: #ece9e9;
-    padding: 10px;
+    background-color: #EEE;
+    display: inline-block;
     border-radius: 10px;
-    margin-top: 15px;
+    padding: 3px 10px;
+    margin: 0 0 10px 60px;
+    width: 80%;
 }
 
-/* End post infos */
+.comment-box p a
+{
+    font-family: 'Source Sans Pro', sans-serif;
+    text-decoration: none;
+}
 
+.comment-box img
+{
+    position: absolute;
+    width: 40px;
+}
+.date
+{
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: rgba(0,0,0,.4);
+}
+
+/**** End Edit HomePage ****/
+
+/***** Start Edit Profile *****/
+
+.profil-container
+{
+    margin-bottom: 50px;
+    max-width: 1000px;
+}
+
+.prof-setting
+{
+    margin-left:15px;
+    padding: 3px 20px;
+}
+
+.prof-posts
+{
+    max-width: 30%;
+    margin-left: 3%;
+    margin-bottom: 3%;
+    padding-right: 0;
+    padding-left: 0;
+    position: relative;
+}
+
+.prof-posts .overlay
+{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 342px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, .2);
+    display: none;
+    cursor: pointer;
+}
+
+.prof-posts .overlay i
+{
+    color: #FFF;
+    font-size: 20px;
+}
+
+.prof-posts:hover .overlay
+{
+    display: block;
+}
+.prof-posts img
+{
+    width: 100%;
+}
+/***** End Edit Profile *****/
+
+
+/***** Start Edit post *****/
+
+
+.span-edit-del
+{
+    float: right;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 16px;
+}
+
+.edit-del-post
+{
+    position: absolute;
+    display: none;
+    height: 100px;
+    width: 100px;
+    top:45px;
+    right: 5px;
+    border-radius: 8px;
+}
+
+.edit-del-post.show
+{
+    display: block;
+}
+
+.edit-del-post a
+{
+    display: block;
+    border: 1px solid rgba(0,0,0,.3);
+}
+
+.edit-del-post .edit-post
+{
+    margin-bottom: 5px;
+}
+
+
+
+/***** End Edit post *****/

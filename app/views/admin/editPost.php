@@ -2,7 +2,7 @@
 <div class="container">
 
     <form action="<?php echo URLROOT . "/app/initadmin.php?url=admin/updatePost"?>" method="POST">
-        <input type="hidden" name="postid" value="<?php echo $data['postId'];?>">
+        <input type="hidden" name="postid" value="<?php echo $data['PostId'];?>">
 
         <!--  Start Field Description  -->
         <div class="form-group row">

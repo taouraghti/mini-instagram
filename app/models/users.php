@@ -9,6 +9,29 @@ class users
 		$this->db = new database;
 	}
 	
+	public function login($username, $password)
+	{
+		$this->db->query('SELECT * FROM users WHERE Username = ? AND Password = ?');
+		$arr = $this->db->resultOne(array($username, $password));
+        if($this->db->rowCount() == 1)
+            return $arr;
+        else
+		    return -1;
+	}
+
+	public function signup($data)
+	{
+		$this->db->query('INSERT INTO users(Username, Password, Email, FullName, Avatar, Date)
+							VALUES(:xuser, :xpass, :xemail, :xfullname, :xavatar, now())');
+		$this->db->bind('xuser', $data['username']);
+		$this->db->bind('xpass', $data['password']);
+		$this->db->bind('xemail', $data['email']);
+		$this->db->bind('xfullname', $data['fullname']);
+		$this->db->bind('xavatar', 'inko.png');
+		$this->db->execute();
+		return $this->login($data['username'], $data['password']);
+	}
+	
 	public function getAll()
 	{
 		$this->db->query("SELECT * FROM users ORDER BY UserId DESC");
