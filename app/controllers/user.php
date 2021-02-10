@@ -91,17 +91,17 @@ class user extends controller
         }
     }
 
-    public function profile($user)
+    public function profil($user)
     {
         //session_start();
         if(isset($_SESSION['username']))
         {
             if ($_SESSION['username'] == $user)
-                $data = $this->postModel->getPostsProfile();
+                $data = $this->postModel->getProfilPost();
             else
-                $data = $this->userModel->getInfoProfile($user);
-            $this->view('users/profile', $data);
-            $this->view('templates/footer');
+                $data = $this->userModel->getProfilInfo($user);
+            $this->view('user/profile', $data);
+            $this->view('templates/userfooter');
         }
         else
         {
@@ -111,12 +111,12 @@ class user extends controller
 
     }
 
-    public function editProfile()
+    public function editProfil()
     {
         if(isset($_SESSION['username']))
         {
-            $this->view('users/editprofile');
-            $this->view('templates/footer');
+            $this->view('user/editprofile');
+            $this->view('templates/userfooter');
         }
         else
         {
@@ -130,23 +130,6 @@ class user extends controller
         //session_start();
         if(isset($_SESSION['username']) && $_SERVER["REQUEST_METHOD"] == "POST")
         {
-            $dataUser = [
-                'userid'      => '',
-                'fullname'      => '',
-                'email'         => '',
-                'username'      => '',
-                'oldpassword'   => '',
-                'newpassword'   => '',
-                'avatar'        => ''
-            ];
-            $dataErr = [];
-            $dataUser['userid'] = $_POST['userid'];
-            $dataUser['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
-            $dataUser['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $dataUser['username'] = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-            $dataUser['oldpassword'] = $_POST['oldpassword'];
-            $dataUser['newpassword'] = $_POST['newpassword'];
-
             $avatar = $_FILES['avatar'];
             $avatarName = $avatar['name'];
             $avatarSize = $avatar['size'];
@@ -158,50 +141,46 @@ class user extends controller
             $avatarExtension = explode('.', $avatarName);
             $ext = strtolower(end($avatarExtension));
 
-            if (!empty($avatarName) && !in_array($ext, $avatarAllowedExtension))
-                $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
-            if(empty($dataUser['fullname']))
-                $dataErr[] = "Full name can't be <strong>Empty</strong>";
-            if(empty($dataUser['email']))
-                $dataErr[] = "Email can't be <strong>Empty</strong>";
-            if(empty($dataUser['username']))
+            $pass = empty($_POST['newpassword']) ? $_POST['oldpassword'] : $pass = sha1($_POST['newpassword']);
+            $dataErr = [];
+
+            $data['fullname'] = filter_var($_POST['fullname'], FILTER_SANITIZE_STRING);
+            $data += ['id' =>  $_POST['userid']];
+            $data += ['email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) ];
+            $data += ['username' => filter_var($_POST['username'], FILTER_SANITIZE_STRING) ];
+            $data += ['password' => $pass ];
+
+            if ($this->userModel->findUserByUsername($data['username'], $data['id']) == 1)
+                $dataErr[] = "Username is already <strong>exist</strong>";
+            if(empty($data['username']))
                 $dataErr[] = "Username can't be <strong>Empty</strong>";
-            else
-            {
-                if ($this->userModel->findUserByUsername($dataUser['username'], $_SESSION['userid']) > 0)
-                    $dataErr[] = "Username is already <strong>Taken</strong>";
-            }
-            if(empty($dataUser['oldpassword']))
-                $dataErr[] = "Password can't be <strong>Empty</strong>";
-            else
-            {
-                if ($this->userModel->findUserByPassword($dataUser['oldpassword']) == 0)
-                    $dataErr[] = "Password is <strong>Incorrect</strong>";
-                if(empty($dataUser['newpassword']))
-                    $dataUser['newpassword'] = $dataUser['oldpassword'];
-            }
-            
-            if(empty($dataErr))
+            if(empty($data['email']))
+                $dataErr[] = "Email can't be <strong>Empty</strong>";
+            if(empty($data['fullname']))
+                $dataErr[] = "Full name can't be <strong>Empty</strong>";
+            if (!empty($avatarName) &&!in_array($ext, $avatarAllowedExtension))
+                $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
+            //Update The DataBase With This infos
+
+            if (empty($dataErr))
             {
                 if(empty($avatarName))
-                    $av = "inko.png";
+                {
+                    $r = $this->userModel->getOne($data['id']);
+                    $av = $r['Avatar'];
+                }
                 else
                 {
                     $av = rand(0, 100000) . '_' . $avatarName;
-                    move_uploaded_file($avatarTmp, "../uploads/avatars/" . $av);
+                    move_uploaded_file($avatarTmp, "uploads\avatars\\" . $av);
                 }
-                $dataUser['avatar'] = $av;
-                if(($d = $this->userModel->updateProfile($dataUser)) > 0)
-                    createSessionUser($d); 
-                redirect('app/init.php?url=users/profile/' . $_SESSION['username']);
+                $data += ['avatar' => $av];
+                $this->userModel->update($data);
+                updateSessionUser($data);
+                redirect('app/init.php?url=user/profil/'.$_SESSION['username']);
             }
             else
                 redirectError($_SERVER['HTTP_REFERER'], $dataErr, 1);
-        }
-        else
-        {
-            $this->view('user/login');
-            $this->view('templates/userfooter');
         }
 
     }

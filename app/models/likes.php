@@ -9,14 +9,17 @@ class likes
 		$this->db = new database;
 	}
 	
-	public function getAll()
+	public function getAll($postid="")
 	{
+        $sql = empty($postid) ? "" : "WHERE PostId=$postid";
 		$this->db->query("SELECT likes.*, users.Avatar
 						FROM likes
 						INNER JOIN users ON users.UserId=likes.UserId
+                        $sql
 						ORDER BY LikeId DESC");
         return $this->db->resultArray();
-	}
+    }
+    
 
 	public function getNotif()
 	{

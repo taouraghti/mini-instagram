@@ -122,6 +122,7 @@ try
     $sql = "CREATE TABLE `comments`(
         `CommentId` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `UserComment` varchar(255) NOT NULL,
+        `CommentView` SMALLINT NOT NULL DEFAULT '0',
         `Comment` text NOT NULL,
         `Date` datetime NOT NULL,
         `Status` SMALLINT NOT NULL DEFAULT '0',

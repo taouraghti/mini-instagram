@@ -9,11 +9,13 @@ class comments
 		$this->db = new database;
 	}
 	
-	public function getAll()
+	public function getAll($postid="")
 	{
+		$sql = empty($postid) ? "" : "WHERE PostId=$postid";
 		$this->db->query("SELECT *, users.Avatar
 						FROM comments
 						INNER JOIN users ON users.UserId=comments.UserId
+						$sql
 						ORDER BY CommentId DESC");
         return $this->db->resultArray();
 	}
@@ -48,7 +50,7 @@ class comments
         $this->db->resultOne(array($userid));
         $user = $this->db->rowCount();
 		$this->db->query("SELECT * FROM posts WHERE PostId = ?");
-		$this->db->resultOne(array($userid));
+		$this->db->resultOne(array($postid));
 		$post = $this->db->rowCount();
 		echo $user . '/' . $post;
         if($user > 0 && $post > 0)

@@ -13,14 +13,17 @@ class posts
 	{
 		$this->db->query("SELECT posts.*, users.Username, users.Avatar
 							FROM posts
-							INNER JOIN users ON posts.UserID = users.UserID
+							INNER JOIN users ON posts.UserId = users.UserId
 							ORDER BY PostId DESC");
         return $this->db->resultArray();
 	}
 
 	public function getPost($id)
 	{
-		$this->db->query("SELECT * FROM posts WHERE PostId=?");
+		$this->db->query("SELECT posts.*, users.Username, users.Avatar
+							FROM posts
+							INNER JOIN users ON posts.UserId = users.UserId
+							WHERE PostId=?");
         return $this->db->resultOne(array($id));
 	}
 	public function countpost()
@@ -34,6 +37,26 @@ class posts
 		$this->db->query("SELECT * FROM posts ORDER BY PostId DESC LIMIT $limit");
 		return $this->db->resultArray();
 	}
+
+	public function getProfilPost()
+    {
+        $this->db->query("SELECT *
+                         FROM posts
+                         WHERE UserId=?
+                         ORDER BY PostId DESC");
+        
+        $arr = $this->db->resultArray(array($_SESSION['userid']));
+        for($i=0; $i < count($arr) ; $i++)
+        { 
+            $this->db->query("SELECT COUNT(CommentId) AS nbComments
+                            FROM comments
+                            WHERE PostId = ?");
+            $c = $this->db->resultOne(array($arr[$i]["PostId"]));
+            $arr[$i] += $c;
+        }
+        return $arr;
+    }
+
 
 	public function insert($desc, $img)
     {

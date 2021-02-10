@@ -42,8 +42,8 @@ class post extends Controller{
 
     public function newPost()
     {
-        $this->view('posts/newpost');
-        $this->view('templates/footer');
+        $this->view('user/newpost');
+        $this->view('templates/userfooter');
     }
 
     /*public function tmpPost()
@@ -52,7 +52,7 @@ class post extends Controller{
     }*/
     public function insertPost()
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST")
+        /*if($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $desc = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 
@@ -83,27 +83,26 @@ class post extends Controller{
                     $dataErr[] = "Error";
             }
             redirectError("app/init.php?url=posts/newPost", $dataErr);
-        }
+        }*/
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
     }
 
 
     public function showPost($postid)
     {
-        $data = $this->postModel->getAllPost("WHERE PostId=$postid");
-        $like = $this->postModel->getElements("likes","likeId", "WHERE PostId=$postid", 1);
-        $comment = $this->postModel->getElements("comments", "CommentId", "WHERE PostId=$postid", 1);
-        if ($like != 0 )
-            $data = array_merge($data, $like);
-        if ($comment != 0 )
-            $data = array_merge($data, $comment);
-        $this->view('posts/showPost', $data);
-        $this->view('templates/footer');
+        $data['post'] = $this->postModel->getPost($postid);
+        $data += ['like' => $this->likeModel->getAll($postid)];
+        $data += ['comment' => $this->commentModel->getAll($postid)];
+        $this->view('user/post', $data);
+        $this->view('templates/userfooter');
     }
 
     public function deletePost($postid)
     {
-        $this->postModel->deltePost($postid);
-        redirect("app/init.php?url=users/profile/" . $_SESSION["username"]);
+        $this->postModel->delete($postid);
+        redirect("app/init.php?url=user/profile/" . $_SESSION["username"]);
     }
 
 

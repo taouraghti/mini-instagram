@@ -344,6 +344,59 @@ body
 
 /**** End Edit HomePage ****/
 
+/**** Start Add Post *****/
+
+.border-secondary {
+    padding: 20px;
+}
+
+  .my-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .btn-dark {
+    background: #333;
+    color: #fff;
+    border: #666 1px solid;
+  }
+  
+  .btn-light {
+    background: #f4f4f4;
+    color: #333;
+    border: #ccc 1px solid;
+  }
+  
+  .select {
+    height: 40px;
+    background: #333;
+    color: #fff;
+    padding: 3px;
+    width: 100%;
+    border: 1px #666 solid;
+    margin-bottom: 10px;
+  }
+  
+  #photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+  
+  #photos img {
+    width: 100%;
+    border: 3px #fff solid;
+  }
+  
+  #canvas {
+    display: none;
+  }
+
+
+/**** End Add Post *****/
+
 /***** Start Edit Profile *****/
 
 .profil-container

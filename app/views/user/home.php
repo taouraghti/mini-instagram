@@ -15,7 +15,7 @@
             <div class="col-12">
                     <div class="card w-75" style="margin:30px auto;max-width:700px">
                     <div class='username-post'>
-                        <a href='<?php echo URLROOT . "/app/init.php?url=users/profile/" . $d['Username'];?>'>
+                        <a href='<?php echo URLROOT . "/app/init.php?url=user/profil/" . $d['Username'];?>'>
                         <img class="img-responsive rounded-circle" style="width:40px;height:40px;" src="<?php echo URLROOT . "/uploads/avatars/" . $d['Avatar'];?>" alt="">
                             <?php echo $d['Username'] ?>
                             </a>
@@ -112,7 +112,7 @@
                                 }
                             ?>
                         </div>
-                        <a href="<?php echo URLROOT . "/app/init.php?url=posts/showPost/".$d["PostId"] ?>" style="display:block;margin-top:10px">View all comments</a>
+                        <a href="<?php echo URLROOT . "/app/init.php?url=post/showPost/".$d["PostId"] ?>" style="display:block;margin-top:10px">View all comments</a>
 
                         <div class="add-comment">
                             <textarea name="comment" class="form-control com-box" id="comment<?php echo $d['PostId']; ?>" row="1" placeholder="Add a comment..." onkeyup="submitBtn(this, <?php echo $d['PostId']; ?>)" ></textarea>

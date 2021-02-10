@@ -32,6 +32,14 @@ function createSessionUser($arr)
     $_SESSION['avatar'] = $arr['Avatar'];
 }
 
+function updateSessionUser($data)
+{
+    $_SESSION['username'] = $data['username'];
+    $_SESSION['fullname'] = $data['fullname'];
+    $_SESSION['email'] = $data['email'];
+    $_SESSION['avatar'] = $data['avatar'];
+}
+
 /*
 function sortFunctionTime( $a, $b ) {
     return strtotime($b[3]) - strtotime($a[3]);

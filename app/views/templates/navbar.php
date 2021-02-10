@@ -7,8 +7,8 @@
 
         <div class="myNav">
             <div class="myLink">
-                <a href="<?php echo URLROOT . '/app/init.php?url=posts/homepage';?>"><i class="fas fa-home" style="font-size: 25px;"></i></a>
-                <a href="<?php echo URLROOT . '/app/init.php?url=posts/newPost';?>"><i class="fab fa-instagram" style="font-size: 25px;"></i></a>
+                <a href="<?php echo URLROOT . '/app/init.php?url=post/home';?>"><i class="fas fa-home" style="font-size: 25px;"></i></a>
+                <a href="<?php echo URLROOT . '/app/init.php?url=post/newPost';?>"><i class="fab fa-instagram" style="font-size: 25px;"></i></a>
                 <a class="nav-like" onclick="showNotif(<?php echo $_SESSION['userid']?>);">
                     <i class="far fa-heart" style="font-size: 25px;"></i>
                     <?php 
@@ -35,7 +35,7 @@
                     <?php 
                     foreach($data['comment'] as $ar)
                     {
-                        echo '<a class="link-notif" href="'.URLROOT . '/app/init.php?url=posts/showPost/'.$ar["PostId"].'">';
+                        echo '<a class="link-notif" href="'.URLROOT . '/app/init.php?url=post/showPost/'.$ar["PostId"].'">';
                             echo "<div class='row notif'>";
                                 echo "<div class='col-2'>";
                                     echo '<img class="rounded-circle" style="width:40px;height:40px;" src="' . URLROOT . '/uploads/avatars/'. $ar['Avatar'] . '" alt="">';
@@ -52,7 +52,7 @@
                     }
                     foreach($data['like'] as $ar)
                     {
-                        echo '<a class="link-notif" href="'.URLROOT . '/app/init.php?url=posts/showPost/'.$ar["PostId"].'">';
+                        echo '<a class="link-notif" href="'.URLROOT . '/app/init.php?url=post/showPost/'.$ar["PostId"].'">';
                             echo "<div class='row notif'>";
                                 echo "<div class='col-2'>";
                                     echo '<img class="rounded-circle" style="width:40px;height:40px;" src="' . URLROOT . '/uploads/avatars/'. $ar['Avatar'] . '" alt="">';
@@ -80,8 +80,8 @@
                         <img class="rounded-circle" style="width:35px; height:35px;" src="<?php echo URLROOT . '/uploads/avatars/'. $_SESSION['avatar']?>" alt="">    
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/profile/'.$_SESSION['username']; ?>">Profile</a>
-                            <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/editProfile';?>">Edit</a>
+                            <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/profil/'.$_SESSION['username']; ?>">Profile</a>
+                            <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/editProfil';?>">Edit</a>
                             <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/logout'; ?>">Logout</a>
                         </div>
                     </div>
