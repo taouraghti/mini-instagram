@@ -164,6 +164,19 @@ body
     display: none !important;
 }
 
+.dropdown-item
+{
+    display: inline-block;
+    width: 100%;
+    padding: 2px 10px;
+    text-decoration: none !important;
+}
+
+.dropdown-item:hover
+{
+    background-color: rgba(0, 0, 0, .1);
+}
+
 /**** End Edit Navbar  ****/
 
 /**** Start Edit HomePage ***/

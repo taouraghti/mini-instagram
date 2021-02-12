@@ -96,9 +96,9 @@ class user extends controller
         //session_start();
         if(isset($_SESSION['username']))
         {
-            if ($_SESSION['username'] == $user)
-                $data = $this->postModel->getProfilPost();
-            else
+            // if ($_SESSION['username'] == $user)
+            //     $data = $this->postModel->getProfilPost();
+            // else
                 $data = $this->userModel->getProfilInfo($user);
             $this->view('user/profile', $data);
             $this->view('templates/userfooter');
@@ -172,7 +172,7 @@ class user extends controller
                 else
                 {
                     $av = rand(0, 100000) . '_' . $avatarName;
-                    move_uploaded_file($avatarTmp, "uploads\avatars\\" . $av);
+                    move_uploaded_file($avatarTmp, "../uploads/avatars/" . $av);
                 }
                 $data += ['avatar' => $av];
                 $this->userModel->update($data);

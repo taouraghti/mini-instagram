@@ -23,6 +23,21 @@ body
     color: #d84747;
 }
 
+.dropdown-item
+{
+    display: inline-block;
+    width: 100%;
+    padding: 3px 10px;
+    text-decoration: none !important;
+    color:#fff
+}
+
+.dropdown-item:hover
+{
+    background-color: rgba(0, 0, 0, .1);
+}
+
+
 /*   End Main Rules*/
 
 /*   Start  Login form   */

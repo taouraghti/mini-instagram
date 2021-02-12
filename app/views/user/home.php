@@ -75,7 +75,7 @@
                                 if($l['PostId'] == $d['PostId'])
                                 {
                                     echo'<div class="name-like">';
-                                        echo '<a href="">';
+                                        echo '<a href="'.URLROOT . '/app/init.php?url=user/profil/'.$l['UserLike'].'">';
                                         echo '<img class="img-responsive rounded-circle" style="width:30px;height:30px;" src="'. URLROOT . '/uploads/avatars/' . $l['Avatar'] .'" alt="">';
                                         echo ' ' . $l['UserLike'];
                                         echo '</a>';
@@ -85,7 +85,7 @@
                         ?>
                         </div>
                         <p class="card-text">
-                            <?php echo "<a href='".URLROOT . "/app/init.php?url=users/profile/" . $d['Username'] . "'>".$d['Username']." </a>" . $d['Description'] ?>
+                            <?php echo "<a href='".URLROOT . "/app/init.php?url=user/profil/" . $d['Username'] . "'>".$d['Username']." </a>" . $d['Description'] ?>
                         </p>
                         <div class="date" style="margin-bottom:20px"><?php echo $d['Date'] ?></div>
                         <div id="com<?php echo $d['PostId']; ?>">
@@ -103,7 +103,7 @@
                                     { ?>
                                         <div class="comment-box">
                                             <img class="img-responsive img-thumbnail rounded-circle" style="width:43px;height:43px;" src="<?php echo URLROOT . "/uploads/avatars/" . $tmp[$i]['Avatar'];?>" alt="">
-                                            <p class="lead"><a href='<?php echo URLROOT . "/app/init.php?url=users/profile/" . $tmp[$i]['UserComment'];?>'><?php echo $tmp[$i]['UserComment'] ?></a>
+                                            <p class="lead"><a href='<?php echo URLROOT . "/app/init.php?url=user/profil/" . $tmp[$i]['UserComment'];?>'><?php echo $tmp[$i]['UserComment'] ?></a>
                                                 <?php echo $tmp[$i]['Comment'] ?> </p>
                                         </div>
                                     <?php 

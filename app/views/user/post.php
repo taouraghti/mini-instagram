@@ -8,13 +8,15 @@
         <div class="col-12">
             <div class="card w-75" style="margin:30px auto; max-width:700px">
                 <div class='username-post'>
-                    <a href='<?php echo URLROOT . "/app/init.php?url=users/profile/" . $data['post']['Username'];?>'>
+                    <a href='<?php echo URLROOT . "/app/init.php?url=user/profil/" . $data['post']['Username'];?>'>
                     <img class="img-responsive rounded-circle" style="width:40px;height:40px;" src="<?php echo URLROOT . "/uploads/avatars/" . $data['post']['Avatar'];?>" alt="">
                         <?php echo $data['post']['Username'] ?>
                     </a>
                     <?php
+                        
                         if($data['post']['Username'] == $_SESSION['username'])
                         {
+                            
                     ?>
                             <span class="span-edit-del" onclick="afficheEditeDel()">
                                 ...
@@ -68,10 +70,10 @@
                         <?php
                             foreach($data['like'] as $l)
                             {
-                                if(isset($l['likeId']) && $l['PostId'] == $data['post']['PostId'])
+                                if($l['PostId'] == $data['post']['PostId'])
                                 {
                                     echo'<div class="name-like">';
-                                        echo '<a href="">';
+                                        echo '<a href="'.URLROOT . '/app/init.php?url=user/profil/'.$l['UserLike'].'">';
                                         echo '<img class="img-responsive rounded-circle" style="width:30px;height:30px;" src="'. URLROOT . '/uploads/avatars/' . $l['Avatar'] .'" alt="">';
                                         echo ' ' . $l['UserLike'];
                                         echo '</a>';
@@ -81,7 +83,7 @@
                         ?>
                         </div>
                         <p class="card-text">
-                            <?php echo "<a href='".URLROOT . "/app/init.php?url=users/profile/" . $data['post']['Username'] . "'>".$data['post']['Username']." </a>" . $data['post']['Description'] ?>
+                            <?php echo "<a href='".URLROOT . "/app/init.php?url=user/profil/" . $data['post']['Username'] . "'>".$data['post']['Username']." </a>" . $data['post']['Description'] ?>
                         </p>
                     
                     <div class="date" style="margin-bottom:20px"><?php echo $data['post']['Date'] ?></div>
@@ -93,7 +95,7 @@
                                 { ?>
                                     <div class="comment-box">
                                         <img class="img-responsive img-thumbnail rounded-circle" style="width:43px;height:43px;" src="<?php echo URLROOT . "/uploads/avatars/" . $c['Avatar'];?>" alt="">
-                                        <p class="lead"><a href='<?php echo URLROOT . "/app/init.php?url=users/profile/" . $c['UserComment'];?>'><?php echo $c['UserComment'] ?></a>
+                                        <p class="lead"><a href='<?php echo URLROOT . "/app/init.php?url=user/profil/" . $c['UserComment'];?>'><?php echo $c['UserComment'] ?></a>
                                             <?php echo $c['Comment'] ?> </p>
                                     </div>
                                  <?php 

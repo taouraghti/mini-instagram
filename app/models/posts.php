@@ -44,7 +44,6 @@ class posts
                          FROM posts
                          WHERE UserId=?
                          ORDER BY PostId DESC");
-        
         $arr = $this->db->resultArray(array($_SESSION['userid']));
         for($i=0; $i < count($arr) ; $i++)
         { 

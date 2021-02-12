@@ -103,4 +103,28 @@ class users
 		$this->db->query("UPDATE users SET RegStatus=1 WHERE UserId=?");
 		$this->db->execute(array($id));
 	}
+
+	public function getProfilInfo($user)
+	{
+		$this->db->query("SELECT * FROM users 
+			WHERE users.Username = ?");	
+		$arr['user'] = $this->db->resultOne(array($user));
+		$this->db->query("SELECT posts.*, users.* FROM users 
+						INNER JOIN posts ON posts.UserId = users.UserId
+						WHERE users.Username = ?
+						ORDER BY posts.PostId DESC ");
+		$arr += ['posts' => $this->db->resultArray(array($user))];
+		if(!empty($arr['posts']))
+		{
+			for($i=0; $i < count($arr) ; $i++)
+			{ 
+				$this->db->query("SELECT COUNT(CommentId) AS nbComments
+								FROM comments
+								WHERE PostId = ?");
+				$c = $this->db->resultOne(array($arr['posts'][$i]["PostId"]));
+				$arr['posts'][$i] += $c;
+			}
+		}
+			return $arr	;
+	}
 }

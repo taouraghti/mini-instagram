@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
 
-        <a class="navbar-brand" href="<?php echo URLROOT . '/app/init.php?url=post/home';?>">Camagru</a>
+        <a class="navbar-brand" href="<?php echo URLROOT . '/app/init.php?url=post/home';?>">Instagram</a>
 
         <div class="myNav">
             <div class="myLink">
