@@ -7,7 +7,7 @@
 
   <div class="collapse navbar-collapse" id="app-nav">
     <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="#">Instagram</a></li>
+        <li class="nav-item"><a class="nav-link" href="../index.php">Instagram</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo URLROOT . '/app/initadmin.php?url=admin/post';?>">Posts</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo URLROOT . '/app/initadmin.php?url=admin/member';?>">Membres</a></li>
         <li class="nav-item"><a class="nav-link" href="<?php echo URLROOT . '/app/initadmin.php?url=admin/comment';?>">Comments</a></li>
@@ -19,7 +19,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="../index.php">Visit Instagram</a>
-          <a class="dropdown-item" href="members.php?do=edit&userid=<?php echo $_SESSION['userid'] ?>">Edit Profil</a>
+          <a class="dropdown-item" href="<?php echo URLROOT . '/app/initadmin.php?url=admin/editMember/'. $_SESSION['userid'] ?>">Edit Profil</a>
           <a class="dropdown-item" href="#">Setting</a>
           <a class="dropdown-item" href="<?php echo URLROOT . '/app/initadmin.php?url=admin/logout';?>">Logout</a>
         </div>

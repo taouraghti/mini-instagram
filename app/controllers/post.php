@@ -2,21 +2,25 @@
 class post extends Controller{
     public function __construct()
     {
-            $this->postModel = $this->model('posts');
-            $this->userModel = $this->model('users');
-            $this->likeModel = $this->model('likes');
-            $this->commentModel = $this->model('comments');
-            if(isset($_SESSION['username']))
-            {
-                $notif['like'] = $this->likeModel->getNotif();
-                $notif += ['comment' => $this->commentModel->getNotif()];
-                $this->view('templates/navbar',$notif);
-            }
+        $this->postModel = $this->model('posts');
+        $this->userModel = $this->model('users');
+        $this->likeModel = $this->model('likes');
+        $this->commentModel = $this->model('comments');
+        if(isset($_SESSION['username']))
+        {
+            $notif['like'] = $this->likeModel->getNotif();
+            $notif += ['comment' => $this->commentModel->getNotif()];
+            $this->view('templates/navbar',$notif);
+        }
+        else
+        {
+            if($_SERVER["REQUEST_METHOD"] != "POST")
+                redirect("");
+        }
     }
 
     public function home()
     {
-        
         $data['post'] = $this->postModel->getAll();
         $data += ['like' => $this->likeModel->getAll()];
         $data += ['comment' => $this->commentModel->getAll()];
@@ -68,7 +72,8 @@ class post extends Controller{
                 file_put_contents($imgUpload, $image);
                 $this->postModel->insert($desc, $imgName);
             }
-            else{
+            else
+            {
                 $image = $_FILES['postimg'];
                 $imageName = $image['name'];
                 $imageSize = $image['size'];
@@ -79,28 +84,25 @@ class post extends Controller{
                 $imageExtension = explode('.', $imageName);
                 $ext = strtolower(end($imageExtension));
 
-            $dataErr = [];
-            if (!empty($imageName) && !in_array($ext, $imageAllowedExtension))
-                $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
-            if(empty($imageName))
-                $dataErr[] = "You Must Choose An Image";
-            if(empty($dataErr))
-            {
-                $img = rand(0, 100000) . '_' . $imageName;
-                move_uploaded_file($imageTmp, "../uploads/posts/" . $img);
+                $dataErr = [];
+                if (!empty($imageName) && !in_array($ext, $imageAllowedExtension))
+                    $dataErr[] = "This Extension is Not <strong>Allowed</strong>";
+                if(empty($imageName))
+                    $dataErr[] = "You Must Choose An Image";
+                if(empty($dataErr))
+                {
+                    $img = rand(0, 100000) . '_' . $imageName;
+                    move_uploaded_file($imageTmp, "../uploads/posts/" . $img);
 
-                if($this->postModel->insert($desc, $img) == 1)
-                    redirect("app/init.php?url=posts/homepage");
-                else
-                    $dataErr[] = "Error";
+                    if($this->postModel->insert($desc, $img) == 1)
+                        redirect("app/init.php?url=post/home");
+                    else
+                        $dataErr[] = "Error";
+                }
+                redirectError("app/init.php?url=post/newPost", $dataErr);
             }
-            redirectError("app/init.php?url=post/newPost", $dataErr);
-        }
             
         }
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "</pre>";
     }
 
 
@@ -116,7 +118,7 @@ class post extends Controller{
     public function deletePost($postid)
     {
         $this->postModel->delete($postid);
-        redirect("app/init.php?url=user/profile/" . $_SESSION["username"]);
+        redirect("app/init.php?url=user/profil/" . $_SESSION["username"]);
     }
 
 

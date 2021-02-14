@@ -3,6 +3,8 @@ body
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
+    color: #2b3842;
+    font-family: 'Rubik', sans-serif;
 }
 
 .navbar
@@ -443,39 +445,26 @@ body
     margin-bottom: 3%;
     padding-right: 0;
     padding-left: 0;
-    position: relative;
 }
 
-.prof-posts .overlay
+.prof-posts .card-img-overlay
 {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    line-height: 342px;
-    text-align: center;
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, .2); 
     display: none;
-    cursor: pointer;
 }
 
-.prof-posts .overlay i
+.prof-posts .card
 {
-    color: #FFF;
-    font-size: 20px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, .3) !important;
 }
 
-.prof-posts:hover .overlay
+.prof-posts:hover .card-img-overlay
 {
     display: block;
 }
-.prof-posts img
-{
-    width: 100%;
-}
+
+
 /***** End Edit Profile *****/
 
 

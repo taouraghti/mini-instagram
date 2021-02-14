@@ -16,14 +16,11 @@
                     echo"<tr>";
                     echo '<td>' .$row["CommentId"]. '</td>';
                     echo '<td>' .$row["Comment"]. '</td>';
-                    echo '<td><img src=uploads/posts/' . $row["postImage"]. '</td>';
+                    echo '<td><img src="../uploads/posts/' . $row["Image"]. '"</td>';
                     echo '<td>' .$row["UserComment"]. '</td>';
                     echo '<td>' .$row["Date"]. '</td>';
                     echo '<td>
-                        <a href="comments.php?do=edit&comid=1" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a>
-                        <a href="comments.php?do=delete&comid=1" class="btn btn-danger confirm"><i class="fas fa-times"></i> Delete</a>';
-                        if ($row['Status'] == 0)
-                            echo '<a href="comments.php?do=approve&comid=1" class="btn btn-primary activate-btn"><i class="fas fa-check"></i> Approve</a>';
+                        <a href="'. URLROOT . '/app/initadmin.php?url=admin/deleteComment/'. $row["CommentId"].'" class="btn btn-danger confirm"><i class="fas fa-times"></i> Delete</a>';
                     echo '</td>';
                     echo '</tr>';
                 }

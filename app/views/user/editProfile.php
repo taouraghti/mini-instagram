@@ -1,7 +1,3 @@
-<?php
-    if(isset($_SESSION['username']))
-    {
-?>
 <h1 class="text-center" style="margin-bottom:70px">Edit Profile</h1>
 <div class="container">
     <form action="<?php echo URLROOT . '/app/init.php?url=user/updateProfile'; ?>" method="POST" enctype="multipart/form-data">
@@ -72,15 +68,3 @@
         <!--  End Field Submit  -->   
     </form>
 </div>
-
-<?php 
-    }
-    else
-    {
-        echo '<div class="container" style="margin-top:100px;">';
-            echo "<div class='alert alert-danger text-center'>Sorry you can't brows this page directly </div>";
-            echo "<div class='alert alert-info text-center'>You Will Be Redirected to the previous After 3 seconds <i class='fa fa-check'></i></div>";
-        echo '</div>';
-        header('refresh:3;http://localhost/instagram');
-    } 
-?>

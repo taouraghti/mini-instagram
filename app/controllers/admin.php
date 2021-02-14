@@ -8,6 +8,16 @@ class admin extends controller
         $this->userModel = $this->model('users');
         $this->postModel = $this->model('posts');
         $this->commentModel = $this->model('comments');
+        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
+            $this->view('admin/navbar');
+        else
+        {
+            if($_SERVER["REQUEST_METHOD"] != "POST")
+            {
+                $this->index();
+                exit();
+            }
+        }
     }
 
     public function index()
@@ -40,90 +50,53 @@ class admin extends controller
                 $dataErr[] = "Username or password incorrect";
                 redirectError("/admin", $dataErr);
             }
-
         }
     }
 
     public function member()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data = $this->userModel->getAll();
-            $this->view('admin/navbar');
-            $this->view("admin/member",$data);
-        }
-        else
-            $this->view('admin/login');
+        $data = $this->userModel->getAll();
+        $this->view("admin/member",$data);
         $this->view('templates/footer');
     }
 
     public function comment()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data = $this->commentModel->getAll();
-            $this->view('admin/navbar');
-            $this->view("admin/comment",$data);
-        }
-        else
-            $this->view('admin/login');
+        $data = $this->commentModel->getAll();
+        $this->view("admin/comment",$data);
         $this->view('templates/footer');
     }
 
     public function post()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data = $this->postModel->getAll();
-            $this->view('admin/navbar');
-            $this->view("admin/post",$data);
-        }
-        else
-            $this->view('admin/login');
+        $data = $this->postModel->getAll();
+        $this->view("admin/post",$data);
         $this->view('templates/footer');
     }
 
     public function dashboard()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data['countAllUser'] = $this->userModel->countAll();
-            $data += ['countPendUser' => $this->userModel->countPend()];
-            $data += ['LatestUser' => $this->userModel->getLatest()];
-            $data += ['countpost' => $this->postModel->countpost()];
-            $data += ['Latestpost' => $this->postModel->getLatest()];
-            $data += ['countComment' => $this->commentModel->countComment()];
-            $data += ['LatestComment' => $this->commentModel->getLatest()];
-            $this->view('admin/navbar');
-            $this->view('admin/dashboard',$data);
-        }
-        else
-            $this->view('admin/login');
+        $data['countAllUser'] = $this->userModel->countAll();
+        $data += ['countPendUser' => $this->userModel->countPend()];
+        $data += ['LatestUser' => $this->userModel->getLatest()];
+        $data += ['countpost' => $this->postModel->countpost()];
+        $data += ['Latestpost' => $this->postModel->getLatest()];
+        $data += ['countComment' => $this->commentModel->countComment()];
+        $data += ['LatestComment' => $this->commentModel->getLatest()];
+        $this->view('admin/dashboard',$data);
         $this->view('templates/footer');
     }
 
     public function addMember()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->view('admin/navbar');
-            $this->view('admin/addMember');
-        }
-        else
-            $this->view('admin/login');
+        $this->view('admin/addMember');
         $this->view('templates/footer');
     }
 
     public function editMember($id)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data = $this->userModel->getOne($id);
-            $this->view('admin/navbar');
-            $this->view('admin/editMember',$data);
-        }
-        else
-            $this->view('admin/login');
+        $data = $this->userModel->getOne($id);
+        $this->view('admin/editMember',$data);
         $this->view('templates/footer');
     }
 
@@ -173,19 +146,24 @@ class admin extends controller
                 else
                 {
                     $av = rand(0, 100000) . '_' . $avatarName;
-                    move_uploaded_file($avatarTmp, "uploads\avatars\\" . $av);
+                    move_uploaded_file($avatarTmp, "../uploads/avatars/" . $av);
                 }
                 $data += ['avatar' => $av];
                 $this->userModel->update($data);
             }
-                $this->view('admin/navbar');
                 $this->view('admin/result',$dataErr);
         }
+        else
+        {
+            $this->index();
+            exit();
+        }
+        $this->view('templates/footer');
     }
 
     public function insertMember()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1 && $_SERVER['REQUEST_METHOD'] == 'POST')
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $avatar = $_FILES['avatar'];
             $avatarName = $avatar['name'];
@@ -234,53 +212,37 @@ class admin extends controller
                 $data += ["avatar" => $av];
                 $this->userModel->insert($data);
             }
-            $this->view('admin/navbar');
             $this->view('admin/result',$dataErr);
         }
         else
-            $this->view('admin/login');
+        {
+            $this->index();
+            exit();
+        }
         $this->view('templates/footer');
     }
 
     public function activateMember($id, $url)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->userModel->activate($id);
-            redirect('app/initadmin.php?url=admin/'.$url);
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        $this->userModel->activate($id);
+        redirect('app/initadmin.php?url=admin/'.$url);
     }
 
     public function deleteMember($id)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->userModel->delete($id);
-            redirect('app/initadmin.php?url=admin/member');
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        $this->userModel->delete($id);
+        redirect('app/initadmin.php?url=admin/member');
     }
 
     public function addPost()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->view('admin/navbar');
-            $this->view('admin/addPost');
-        }
-        else
-            $this->view('admin/login');
+        $this->view('admin/addPost');
         $this->view('templates/footer');
     }
 
     public function insertPost()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1 && $_SERVER['REQUEST_METHOD'] == "POST")
+        if($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $desc = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 
@@ -310,30 +272,26 @@ class admin extends controller
                 else
                     $dataErr[] = "Error";
             }
-            $this->view('admin/navbar');
             $this->view('admin/result',$dataErr);
         }
         else
-            $this->view('admin/login');
+        {
+            $this->index();
+            exit();
+        }
         $this->view('templates/footer');
     }
 
     public function editPost($id)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $data = $this->postModel->getPost($id);
-            $this->view('admin/navbar');
-            $this->view('admin/EditPost', $data);
-        }    
-        else
-            $this->view('admin/login');
+        $data = $this->postModel->getPost($id);
+        $this->view('admin/EditPost', $data);
         $this->view('templates/footer');
     }
 
     public function updatePost()
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1 && $_SERVER['REQUEST_METHOD'] == "POST")
+        if($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $desc = $_POST['description'];
             $status = ($_POST['status'] == 1 ? 1 : 0);
@@ -342,34 +300,29 @@ class admin extends controller
             redirect("app/initadmin.php?url=admin/post");
         }    
         else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        {
+            $this->index();
+            exit();
+        }
     }
 
     public function deletePost($id)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->postModel->delete($id);
-            redirect('app/initadmin.php?url=admin/post');
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        $this->postModel->delete($id);
+        redirect('app/initadmin.php?url=admin/post');
     }
 
     public function approvePost($id, $url)
     {
-        if(isset($_SESSION['username']) && $_SESSION['group'] == 1)
-        {
-            $this->postModel->approve($id);
-            redirect('app/initadmin.php?url=admin/'.$url);
-        }
-        else
-            $this->view('admin/login');
-        $this->view('templates/footer');
+        $this->postModel->approve($id);
+        redirect('app/initadmin.php?url=admin/'.$url);
     }
 
+    public function deleteComment($id)
+    {
+        $this->commentModel->delete($id);
+        redirect('app/initadmin.php?url=admin/comment');
+    }
     public function logout()
     {
         session_start();

@@ -77,7 +77,7 @@
                    ?>
                     <div class="dropdown">
                         <a class="dropdown-toggle nav-img" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" style="width:35px; height:35px;" src="<?php echo URLROOT . '/uploads/avatars/'. $_SESSION['avatar']?>" alt="">    
+                        <img class="rounded-circle img-thumbnail" style="width:40px; height:40px;" src="<?php echo URLROOT . '/uploads/avatars/'. $_SESSION['avatar']?>" alt="">    
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="<?php echo URLROOT . '/app/init.php?url=user/profil/'.$_SESSION['username']; ?>">Profile</a>

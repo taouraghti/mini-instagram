@@ -48,12 +48,14 @@ class users
 	public function countAll()
 	{
 		$this->db->query("SELECT UserId FROM users WHERE GroupID=0");
+		$this->db->resultArray();
 		return $this->db->rowCount();
 	}
 
 	public function countPend()
 	{
 		$this->db->query("SELECT UserId FROM users WHERE RegStatus=0");
+		$this->db->resultArray();
 		return $this->db->rowCount();
 	}
 
@@ -107,24 +109,29 @@ class users
 	public function getProfilInfo($user)
 	{
 		$this->db->query("SELECT * FROM users 
-			WHERE users.Username = ?");	
+			WHERE users.Username = ? AND RegStatus=1");	
 		$arr['user'] = $this->db->resultOne(array($user));
-		$this->db->query("SELECT posts.*, users.* FROM users 
-						INNER JOIN posts ON posts.UserId = users.UserId
-						WHERE users.Username = ?
-						ORDER BY posts.PostId DESC ");
-		$arr += ['posts' => $this->db->resultArray(array($user))];
-		if(!empty($arr['posts']))
+		if($this->db->rowCount())
 		{
-			for($i=0; $i < count($arr['posts']) ; $i++)
-			{ 
-				$this->db->query("SELECT COUNT(CommentId) AS nbComments
-								FROM comments
-								WHERE PostId = ?");
-				$c = $this->db->resultOne(array($arr['posts'][$i]["PostId"]));
-				$arr['posts'][$i] += $c;
+			$this->db->query("SELECT posts.*, users.* FROM users 
+							INNER JOIN posts ON posts.UserId = users.UserId
+							WHERE users.Username = ?
+							ORDER BY posts.PostId DESC ");
+			$arr += ['posts' => $this->db->resultArray(array($user))];
+			if(!empty($arr['posts']))
+			{
+				for($i=0; $i < count($arr['posts']) ; $i++)
+				{ 
+					$this->db->query("SELECT COUNT(CommentId) AS nbComments
+									FROM comments
+									WHERE PostId = ?");
+					$c = $this->db->resultOne(array($arr['posts'][$i]["PostId"]));
+					$arr['posts'][$i] += $c;
+				}
 			}
+				return $arr	;
 		}
-			return $arr	;
+		else
+			return -1;
 	}
 }

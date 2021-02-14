@@ -14,6 +14,7 @@ class posts
 		$this->db->query("SELECT posts.*, users.Username, users.Avatar
 							FROM posts
 							INNER JOIN users ON posts.UserId = users.UserId
+							WHERE users.RegStatus=1
 							ORDER BY PostId DESC");
         return $this->db->resultArray();
 	}
@@ -29,6 +30,7 @@ class posts
 	public function countpost()
 	{
 		$this->db->query("SELECT PostId FROM posts");
+		$this->db->resultArray();
 		return $this->db->rowCount();
 	}
 

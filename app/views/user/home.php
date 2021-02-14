@@ -1,9 +1,3 @@
-<?php
-    if(isset($_SESSION['username']))
-    {
-
-?>
-
 <div class="container" >
 
     <div class="row">
@@ -126,15 +120,3 @@
         ?>
     </div>
 </div>
-<?php 
-    }
-    else
-    {
-        echo '<div class="container" style="margin-top:100px;">';
-            echo "<div class='alert alert-danger text-center'>Sorry you can't brows this page directly </div>";
-            echo "<div class='alert alert-info text-center'>You Will Be Redirected to the previous After 3 seconds <i class='fa fa-check'></i></div>";
-        echo '</div>';
-        header('refresh:3;http://localhost/camagru-test');
-    } 
-    ob_end_flush(); 
-?>

@@ -1,7 +1,5 @@
 <?php
-    if(isset($_SESSION['username']))
-    {
-        $av = isset($data['user']['Avatar']) ? $data['user']['Avatar'] : $_SESSION['avatar'];
+   $av = isset($data['user']['Avatar']) ? $data['user']['Avatar'] : $_SESSION['avatar'];
 ?>
 <div class="container profil-container">
     
@@ -43,21 +41,27 @@
                 foreach($data['posts'] as $d)
                 { ?>
                     
-                    <div class="col-sm-4 col-12 prof-posts" style="max-height:345px;overflow:hidden;">
-                    <a  style="text-decoration:none;font-weight:500;color:#FFF" 
-                        href="<?php echo URLROOT . "/app/init.php?url=post/showPost/".$d["PostId"] ?>">
-                        <div class="overlay">
-                            <i class="fas fa-heart" ></i><?php echo ' '.$d['NumberLikes'] ?>
-                            <i class="fas fa-comment" style="margin-left:20px"></i> <?php echo $d['nbComments']?>
+                    <div class="col-sm-4 prof-posts">
+                    <a  style="text-decoration:none; color:#fff"
+                        href="<?php echo URLROOT . "/app/init.php?url=post/showPost/".$d["PostId"] ?>"
+                    >
+                        <div class="card text-white h-100">
+                        
+                            <img 
+                                src="<?php echo URLROOT . "/uploads/posts/" . $d['Image'] ?>"
+                                class="card-img" alt="..."
+                                style="height:100%"
+                            >
+                            <div class="card-img-overlay">
+                                <h5 class="card-title text-center">
+                                    <i class="fas fa-heart" style="color:#fff"></i><?php echo ' '.$d['NumberLikes'] ?>
+                                    <i class="fas fa-comment" style="margin-left:20px"></i> <?php echo $d['nbComments']?>
+                                </h5>
+                            </div>
+                
                         </div>
-                        <img 
-                            style="width:100%;height:100%;"
-                            src="<?php echo URLROOT . "/uploads/posts/" . $d['Image'] ?>" 
-                            alt="...">
-                        </img>
                     </a>
                     </div>
-                
         <?php
                 }
             }
@@ -72,17 +76,6 @@
             }
 
         ?>
+
     </div>
 </div>
-
-<?php 
-    }
-    else
-    {
-        echo '<div class="container" style="margin-top:100px;">';
-            echo "<div class='alert alert-danger text-center'>Sorry you can't brows this page directly </div>";
-            echo "<div class='alert alert-info text-center'>You Will Be Redirected to the previous After 3 seconds <i class='fa fa-check'></i></div>";
-        echo '</div>';
-        header('refresh:3;http://localhost/instagram');
-    } 
-?>

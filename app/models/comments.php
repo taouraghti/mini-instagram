@@ -11,10 +11,12 @@ class comments
 	
 	public function getAll($postid="")
 	{
-		$sql = empty($postid) ? "" : "WHERE PostId=$postid";
-		$this->db->query("SELECT *, users.Avatar
+		$sql = empty($postid) ? "" : " AND posts.PostId=$postid";
+		$this->db->query("SELECT *, users.Avatar, posts.Image
 						FROM comments
 						INNER JOIN users ON users.UserId=comments.UserId
+						INNER JOIN posts ON posts.PostId = comments.PostId
+						WHERE users.RegStatus=1
 						$sql
 						ORDER BY CommentId DESC");
         return $this->db->resultArray();
@@ -32,6 +34,7 @@ class comments
 	public function countComment()
 	{
 		$this->db->query("SELECT CommentId FROM comments");
+		$this->db->resultArray();
 		return $this->db->rowCount();
 	}
 
@@ -63,4 +66,10 @@ class comments
 			$this->db->execute();
         }
     }
+
+	public function delete($id)
+	{
+		$this->db->query("DELETE FROM comments WHERE CommentId=?");
+		$this->db->execute(array($id));
+	}
 }

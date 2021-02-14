@@ -217,6 +217,7 @@ function takePicture() {
     // Create canvas
     const context = canvas.getContext('2d');
     if(width && height) {
+        console.log(height);
         // set canvas props
         canvas.width = width;
         canvas.height = height;
@@ -294,19 +295,3 @@ if(video && canvas && photos)
     });
 
 }
-/*
-function savePicture(userid)
-{
-    var canvas = document.getElementById("canvas");
-    var req = new XMLHttpRequest();
-    req.open("GET", "http://localhost/instagram/app/init.php?url=post/savePicture/"+ userid, true);
-    req.send();
-    req.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200)
-        {
-            notif.classList.toggle("show");
-            if(n)
-                n.style.display = "none";
-        }
-    }
-}*/

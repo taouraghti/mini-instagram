@@ -16,6 +16,14 @@ class user extends controller
             $notif += ['comment' => $this->commentModel->getNotif()];
             $this->view('templates/navbar',$notif);
         }
+        else
+        {
+            if($_SERVER["REQUEST_METHOD"] != "POST")
+            {
+                $this->index();
+                exit();
+            }
+        }
     }
 
     public function index()
@@ -39,6 +47,11 @@ class user extends controller
             $loggedInUser = $this->userModel->login($username, $password);
             if($loggedInUser != -1)
             {
+                if($loggedInUser['RegStatus'] == 0)
+                {
+                    $dataErr[] = "Your account is disactivated temporary";
+                    redirectError("index.php", $dataErr);
+                }
                 createSessionUser($loggedInUser);
                 redirect('app/init.php?url=post/home');
             }
@@ -93,41 +106,26 @@ class user extends controller
 
     public function profil($user)
     {
-        //session_start();
-        if(isset($_SESSION['username']))
+        
+        $data = $this->userModel->getProfilInfo($user);
+        if($data == -1)
         {
-            // if ($_SESSION['username'] == $user)
-            //     $data = $this->postModel->getProfilPost();
-            // else
-                $data = $this->userModel->getProfilInfo($user);
-            $this->view('user/profile', $data);
-            $this->view('templates/userfooter');
+            $dataErr[] = "Profil does not exist";
+            redirectError("index.php", $dataErr);
         }
-        else
-        {
-            $this->view('user/login');
-            $this->view('templates/userfooter');
-        }
+        $this->view('user/profile', $data);
+        $this->view('templates/userfooter');
 
     }
 
     public function editProfil()
     {
-        if(isset($_SESSION['username']))
-        {
-            $this->view('user/editprofile');
-            $this->view('templates/userfooter');
-        }
-        else
-        {
-            $this->view('user/login');
-            $this->view('templates/userfooter');
-        }
+        $this->view('user/editprofile');
+        $this->view('templates/userfooter');
     }
 
     public function updateProfile()
     {
-        //session_start();
         if(isset($_SESSION['username']) && $_SERVER["REQUEST_METHOD"] == "POST")
         {
             $avatar = $_FILES['avatar'];
@@ -182,7 +180,11 @@ class user extends controller
             else
                 redirectError($_SERVER['HTTP_REFERER'], $dataErr, 1);
         }
-
+        else
+        {
+            $this->index();
+            exit();
+        }
     }
 
     public function logout()

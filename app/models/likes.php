@@ -11,10 +11,11 @@ class likes
 	
 	public function getAll($postid="")
 	{
-        $sql = empty($postid) ? "" : "WHERE PostId=$postid";
+        $sql = empty($postid) ? "" : "AND posts.PostId=$postid";
 		$this->db->query("SELECT likes.*, users.Avatar
 						FROM likes
 						INNER JOIN users ON users.UserId=likes.UserId
+                        WHERE users.RegStatus=1
                         $sql
 						ORDER BY LikeId DESC");
         return $this->db->resultArray();
