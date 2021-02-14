@@ -52,20 +52,32 @@ class post extends Controller{
     }*/
     public function insertPost()
     {
-        /*if($_SERVER['REQUEST_METHOD'] == "POST")
+        if($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $desc = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 
-            $image = $_FILES['postimg'];
-            $imageName = $image['name'];
-            $imageSize = $image['size'];
-            $imageTmp = $image['tmp_name'];
-            $imageType = $image['type'];
-
-            // List Of Allowed File Types
-            $imageAllowedExtension = array('jpeg', 'jpg', 'png', 'gif');
-            $imageExtension = explode('.', $imageName);
-            $ext = strtolower(end($imageExtension));
+            if(isset($_POST['postimg']))
+            {
+                $image = $_POST['postimg'];
+                $image = explode(";",$image)[1];
+                $image = explode(",",$image)[1];
+                $image = str_replace(" ","+", $image);
+                $image = base64_decode($image);
+                $imgName = rand(0, 100000) . '_' . randstr() . ".png";
+                $imgUpload = "../uploads/posts/" . $imgName;
+                file_put_contents($imgUpload, $image);
+                $this->postModel->insert($desc, $imgName);
+            }
+            else{
+                $image = $_FILES['postimg'];
+                $imageName = $image['name'];
+                $imageSize = $image['size'];
+                $imageTmp = $image['tmp_name'];
+                $imageType = $image['type'];
+                // List Of Allowed File Types
+                $imageAllowedExtension = array('jpeg', 'jpg', 'png', 'gif');
+                $imageExtension = explode('.', $imageName);
+                $ext = strtolower(end($imageExtension));
 
             $dataErr = [];
             if (!empty($imageName) && !in_array($ext, $imageAllowedExtension))
@@ -77,16 +89,18 @@ class post extends Controller{
                 $img = rand(0, 100000) . '_' . $imageName;
                 move_uploaded_file($imageTmp, "../uploads/posts/" . $img);
 
-                if($this->postModel->newPost($desc, $img) == 1)
+                if($this->postModel->insert($desc, $img) == 1)
                     redirect("app/init.php?url=posts/homepage");
                 else
                     $dataErr[] = "Error";
             }
-            redirectError("app/init.php?url=posts/newPost", $dataErr);
-        }*/
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
+            redirectError("app/init.php?url=post/newPost", $dataErr);
+        }
+            
+        }
+        // echo "<pre>";
+        // print_r($_POST);
+        // echo "</pre>";
     }
 
 

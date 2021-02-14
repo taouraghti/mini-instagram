@@ -155,6 +155,45 @@ function changeFile(element)
     
 }
 
+function choicePic(element){
+    var checked = document.getElementsByClassName("pic-checked"),
+        takePic = document.getElementById("take-pic"),
+        uploadPic = document.getElementById("upload-pic");
+    if(!element.classList.contains("pic-checked"))
+    {
+        checked[0].classList.remove("pic-checked");
+        element.classList.add("pic-checked");
+        if(takePic.classList.contains("not-selected"))
+        {
+            console.log("take-pic");
+            takePic.classList.remove("not-selected");
+            uploadPic.classList.add("not-selected");
+        }
+        else
+        {
+            console.log("upload-pic");
+            takePic.classList.add("not-selected");
+            uploadPic.classList.remove("not-selected");
+        }   
+    }
+}
+
+function saveImage()
+{
+    var desc = document.getElementById("description"),
+        canvas = document.getElementById('canvas');
+    var req = new XMLHttpRequest();
+    req.open("POST", "http://localhost/instagram/app/init.php?url=post/insertPost");
+    req.withCredentialfull_canvas = true;
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send("postimg=" + canvas.toDataURL("image/png")+"&description=" + desc.value);
+    req.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200)
+        {
+            window.location.replace("http://localhost/instagram/app/init.php?url=post/home");        }
+    }
+}
+
 function showLikes(postid)
 {
     var showLikes = document.getElementById("show-likes" + postid);
@@ -169,33 +208,34 @@ let width = 500,
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const photos = document.getElementById('photos');
-const photoButton = document.getElementById('photo-button');
 const clearButton = document.getElementById('clear-button');
 const photoFilter = document.getElementById('photo-filter');
+const saveButton = document.getElementById('save-button');
 
 
 function takePicture() {
     // Create canvas
     const context = canvas.getContext('2d');
     if(width && height) {
-    // set canvas props
-    canvas.width = width;
-    canvas.height = height;
-    // Draw an image of the video on the canvas
-    context.drawImage(video, 0, 0, width, height);
-    // Create image from the canvas
-    const imgUrl = canvas.toDataURL('image/png');
-    const img = document.createElement("img");
-    img.setAttribute('src', imgUrl);
+        // set canvas props
+        canvas.width = width;
+        canvas.height = height;
+        // Draw an image of the video on the canvas
+        context.filter = filter;
+        context.drawImage(video, 0, 0, width, height);
+        //context.drawImage(video.style.filter, 0, 0, width, height);
+        // Create image from the canvas
+        const imgUrl = canvas.toDataURL('image/png');
+        const img = document.createElement("img");
+        img.setAttribute('src', imgUrl);
 
-    // Set image filter
-    img.style.filter = filter;
-    
-    photos.appendChild(img);  
-    }
+        // Set image filter
+        img.style.filter = filter;
+        //context.drawImage(img, 0, 0, width, height);
+        photos.appendChild(img);
+        saveButton.disabled = false;
+    }   
 }
-
-
 // Get media stream
 
 if(video && canvas && photos)
@@ -225,10 +265,11 @@ if(video && canvas && photos)
         }
     }, false);
 
-    photoButton.addEventListener('click', function(e){
-        takePicture();
-        e.preventDefault();
-    });
+    /*photoButton.addEventListener('click', function(e){
+        console.log("ok");
+        //takePicture();
+        //e.preventDefault();
+    });*/
 
     // Filter event
     photoFilter.addEventListener('change', function(e) {
@@ -251,6 +292,7 @@ if(video && canvas && photos)
         // Reset select list
         photoFilter.selectedIndex = 0;
     });
+
 }
 /*
 function savePicture(userid)

@@ -5,7 +5,7 @@
 
         <a class="navbar-brand" href="<?php echo URLROOT . '/app/init.php?url=post/home';?>">Instagram</a>
 
-        <div class="myNav">
+        <div class="myNav" >
             <div class="myLink">
                 <a href="<?php echo URLROOT . '/app/init.php?url=post/home';?>"><i class="fas fa-home" style="font-size: 25px;"></i></a>
                 <a href="<?php echo URLROOT . '/app/init.php?url=post/newPost';?>"><i class="fab fa-instagram" style="font-size: 25px;"></i></a>

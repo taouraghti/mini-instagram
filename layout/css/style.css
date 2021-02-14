@@ -408,6 +408,18 @@ body
   }
 
 
+  .pic-choice
+  {
+      color: rgba(0, 0, 0, .5);
+      margin-bottom: 30px;
+      cursor: pointer;
+  }
+
+  .pic-checked
+  {
+      color: #000;
+  }
+
 /**** End Add Post *****/
 
 /***** Start Edit Profile *****/

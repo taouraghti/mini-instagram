@@ -116,7 +116,7 @@ class users
 		$arr += ['posts' => $this->db->resultArray(array($user))];
 		if(!empty($arr['posts']))
 		{
-			for($i=0; $i < count($arr) ; $i++)
+			for($i=0; $i < count($arr['posts']) ; $i++)
 			{ 
 				$this->db->query("SELECT COUNT(CommentId) AS nbComments
 								FROM comments

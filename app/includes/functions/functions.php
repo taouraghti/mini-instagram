@@ -39,7 +39,14 @@ function updateSessionUser($data)
     $_SESSION['email'] = $data['email'];
     $_SESSION['avatar'] = $data['avatar'];
 }
-
+function randstr ($len=10, $abc="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789") {
+    $letters = str_split($abc);
+    $str = "";
+    for ($i=0; $i<=$len; $i++) {
+        $str .= $letters[rand(0, count($letters)-1)];
+    };
+    return $str;
+};
 /*
 function sortFunctionTime( $a, $b ) {
     return strtotime($b[3]) - strtotime($a[3]);
